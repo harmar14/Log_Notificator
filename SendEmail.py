@@ -1,5 +1,6 @@
 from GetConfig import GetConfig
 from FindFreshLogs import FindFreshLogs
+from ZipLogs import ZipLogs
 from WriteError import WriteError
 import smtplib
 from pathlib import Path
@@ -204,6 +205,11 @@ class SendEmail:
         self.getLogs()
         
         if not (self.ok):
+            return
+        
+        self.logs = ZipLogs().execute(self.logs)
+        
+        if (self.logs is None):
             return
         
         self.sendLogs()
